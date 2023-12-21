@@ -62,7 +62,7 @@ val sdk = PayselectionPaymentsSdk.getInstance(configuration)
 1. Создайте объект PaymentData с информацией о транзакции и данными карты
 
 ```
-val paymentData = PaymentData.create(
+val paymentData = PaymentData.createCrypto(
 	transactionDetails = TransactionDetails(
 		amount = "100",
 		currency = "RUB"
