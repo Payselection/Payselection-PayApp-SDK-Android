@@ -44,7 +44,7 @@ class PaymentService {
         sdk?.pay(
             orderId = orderId,
             description = "test payment",
-            paymentData = PaymentData.createCrypto(
+            paymentData = PaymentData.createCryptogramRSA(
                 transactionDetails = TransactionDetails(
                     amount = "10",
                     currency = "RUB"

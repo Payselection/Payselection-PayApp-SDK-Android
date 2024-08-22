@@ -1,5 +1,7 @@
 package payselection.payments.sdk
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
@@ -47,7 +49,12 @@ internal class PaymentSdkImpl(
                 PaymentDetailsToken(paymentData.tokenDetails?.payToken ?: "")
             }
 
-            PaymentMethod.QR -> null
+            PaymentMethod.QR, PaymentMethod.SberPay, PaymentMethod.ExternalForm -> null
+
+            PaymentMethod.CryptogramRSA -> {
+                val paymentDataString = gson.toJson(paymentData).toString()
+                PaymentDetailsCryptogram(CryptoModule.createCryptogramRsa(paymentDataString, configuration.publicRsaKey))
+            }
         }
         return restClient.pay(
             restConverter.createTokenPayJson(

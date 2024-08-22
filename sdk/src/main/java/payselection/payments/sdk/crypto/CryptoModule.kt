@@ -9,10 +9,25 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider
 import org.bouncycastle.jce.spec.ECPublicKeySpec
 import org.bouncycastle.util.encoders.Hex
 import java.nio.charset.StandardCharsets
-import java.security.*
+import java.security.InvalidAlgorithmParameterException
+import java.security.InvalidKeyException
+import java.security.Key
+import java.security.KeyFactory
+import java.security.KeyPairGenerator
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+import java.security.NoSuchProviderException
+import java.security.PublicKey
+import java.security.SecureRandom
 import java.security.spec.InvalidKeySpecException
-import java.util.*
-import javax.crypto.*
+import java.security.spec.X509EncodedKeySpec
+import java.util.Arrays
+import javax.crypto.BadPaddingException
+import javax.crypto.Cipher
+import javax.crypto.IllegalBlockSizeException
+import javax.crypto.KeyAgreement
+import javax.crypto.Mac
+import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
@@ -54,7 +69,16 @@ internal object CryptoModule {
         return iv
     }
 
-    @Throws(NoSuchPaddingException::class, NoSuchAlgorithmException::class, NoSuchProviderException::class, InvalidKeySpecException::class, InvalidAlgorithmParameterException::class, InvalidKeyException::class, IllegalBlockSizeException::class, BadPaddingException::class)
+    @Throws(
+        NoSuchPaddingException::class,
+        NoSuchAlgorithmException::class,
+        NoSuchProviderException::class,
+        InvalidKeySpecException::class,
+        InvalidAlgorithmParameterException::class,
+        InvalidKeyException::class,
+        IllegalBlockSizeException::class,
+        BadPaddingException::class
+    )
     private fun encrypt(key: String, msg: String): EncryptedData {
         val cipher = Cipher.getInstance("AES/CBC/PKCS7Padding", provider)
         val iv = randomIv(cipher)
@@ -103,6 +127,25 @@ internal object CryptoModule {
         sendData.addProperty("tag", toString(encryptedData.tag))
 
         return toString(sendData.toString().toByteArray())
+    }
+
+    fun createCryptogramRsa(paymentData: String, key: String): String {
+        val pemString = String(Base64.decode(key, Base64.DEFAULT), StandardCharsets.UTF_8)
+        val cleanPublicKey = pemString
+            .replace("-----BEGIN PUBLIC KEY-----", "")
+            .replace("-----END PUBLIC KEY-----", "")
+            .trim()
+
+        val publicKeyBytes = Base64.decode(cleanPublicKey, Base64.DEFAULT)
+
+        val keyFactory = KeyFactory.getInstance("RSA")
+        val keySpec  = X509EncodedKeySpec(publicKeyBytes)
+        val publicKey = keyFactory.generatePublic(keySpec)
+
+        val cipher = Cipher.getInstance("RSA/ECB/OAEPwithSHA-256andMGF1Padding")
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey)
+        val encryptedBytes = cipher.doFinal(paymentData.toByteArray())
+        return Base64.encodeToString(encryptedBytes, Base64.DEFAULT).trim()
     }
 
     private fun toString(bytes: ByteArray): String {
