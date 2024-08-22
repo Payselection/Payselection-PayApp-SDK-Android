@@ -1,7 +1,5 @@
 package payselection.payments.sdk
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
