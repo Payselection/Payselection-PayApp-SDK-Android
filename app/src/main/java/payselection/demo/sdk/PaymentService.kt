@@ -64,7 +64,8 @@ class PaymentService {
                 address = "string",
                 town = "string",
                 zip = "string",
-                country = "USA"
+                country = "USA",
+                ip = ""
             ),
             rebillFlag = false
         )?.proceedResult(

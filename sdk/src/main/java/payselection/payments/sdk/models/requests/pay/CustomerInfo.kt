@@ -20,8 +20,9 @@ data class CustomerInfo(
     @SerializedName("ZIP")
     val zip: String? = null,
     @SerializedName("Country")
-    val country: String? = null
-) {
+    val country: String? = null,
     @SerializedName("IP")
-    internal var ip: String = ""
-}
+    internal var ip: String,
+    @SerializedName("UserId")
+    val usedId: String? = null,
+)
