@@ -24,5 +24,5 @@ data class CustomerInfo(
     @SerializedName("IP")
     internal var ip: String,
     @SerializedName("UserId")
-    val usedId: String? = null,
+    val userId: String? = null,
 )

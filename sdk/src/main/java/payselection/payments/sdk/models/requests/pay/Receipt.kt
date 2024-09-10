@@ -2,7 +2,6 @@ package payselection.payments.sdk.models.requests.pay
 
 import com.google.gson.annotations.SerializedName
 import payselection.payments.sdk.models.requests.pay.enum.MeasurementUnit
-import payselection.payments.sdk.models.requests.pay.enum.PaymentType
 import payselection.payments.sdk.models.requests.pay.enum.ReceiptPaymentMethod
 import payselection.payments.sdk.models.requests.pay.enum.ReceiptPaymentObject
 import payselection.payments.sdk.models.requests.pay.enum.VatType
@@ -172,7 +171,7 @@ data class Vat(
 
 data class Payment(
     @SerializedName("type")
-    val type: PaymentType,
+    val type: Int,
     @SerializedName("sum")
     val sum: Double?
 )
