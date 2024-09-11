@@ -47,7 +47,12 @@ internal class PaymentSdkImpl(
                 PaymentDetailsToken(paymentData.tokenDetails?.payToken ?: "")
             }
 
-            PaymentMethod.QR -> null
+            PaymentMethod.QR, PaymentMethod.SberPay, PaymentMethod.ExternalForm -> null
+
+            PaymentMethod.CryptogramRSA -> {
+                val paymentDataString = gson.toJson(paymentData).toString()
+                PaymentDetailsCryptogram(CryptoModule.createCryptogramRsa(paymentDataString, configuration.publicRsaKey))
+            }
         }
         return restClient.pay(
             restConverter.createTokenPayJson(

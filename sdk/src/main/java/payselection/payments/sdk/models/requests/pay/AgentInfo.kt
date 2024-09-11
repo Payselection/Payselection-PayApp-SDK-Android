@@ -1,10 +1,11 @@
 package payselection.payments.sdk.models.requests.pay
 
 import com.google.gson.annotations.SerializedName
+import payselection.payments.sdk.models.requests.pay.enum.AgentInfoType
 
 data class AgentInfo(
     @SerializedName("type")
-    val type: String? = null,
+    val type: AgentInfoType? = null,
     @SerializedName("paying_agent")
     val payingAgent: PayingAgent? = null,
     @SerializedName("receive_payments_operator")

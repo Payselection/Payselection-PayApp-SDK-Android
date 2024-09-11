@@ -44,5 +44,28 @@ data class PaymentData internal constructor(
                 paymentMethod = PaymentMethod.QR
             )
         }
+
+        fun createSberPay(transactionDetails: TransactionDetails): PaymentData {
+            return PaymentData(
+                transactionDetails = transactionDetails,
+                paymentMethod = PaymentMethod.SberPay
+            )
+        }
+
+        fun createExternalForm(transactionDetails: TransactionDetails): PaymentData {
+            return PaymentData(
+                transactionDetails = transactionDetails,
+                paymentMethod = PaymentMethod.ExternalForm
+            )
+        }
+
+        fun createCryptogramRSA(transactionDetails: TransactionDetails, cardDetails: CardDetails): PaymentData {
+            return PaymentData(
+                transactionDetails = transactionDetails,
+                cardDetails = cardDetails,
+                messageExpiration = System.currentTimeMillis() + EXPIRATION,
+                paymentMethod = PaymentMethod.CryptogramRSA
+            )
+        }
     }
 }

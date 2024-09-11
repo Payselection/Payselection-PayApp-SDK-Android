@@ -1,6 +1,7 @@
 package payselection.payments.sdk.models.requests.pay
 
 import com.google.gson.annotations.SerializedName
+import payselection.payments.sdk.models.requests.pay.enum.MeasurementUnit
 import payselection.payments.sdk.models.requests.pay.enum.ReceiptPaymentMethod
 import payselection.payments.sdk.models.requests.pay.enum.ReceiptPaymentObject
 import payselection.payments.sdk.models.requests.pay.enum.VatType
@@ -68,7 +69,7 @@ sealed class Item {
         @SerializedName("sum")
         val sum: Double?,
         @SerializedName("measurement_unit")
-        val measurementUnit: String? = null,
+        val measurementUnit: MeasurementUnit? = null,
         @SerializedName("payment_method")
         val paymentMethod: ReceiptPaymentMethod,
         @SerializedName("payment_object")
@@ -101,7 +102,7 @@ sealed class Item {
         @SerializedName("sum")
         val sum: Double?,
         @SerializedName("measure")
-        val measure: Int,
+        val measure: MeasurementUnit,
         @SerializedName("payment_method")
         val paymentMethod: ReceiptPaymentMethod,
         @SerializedName("payment_object")
