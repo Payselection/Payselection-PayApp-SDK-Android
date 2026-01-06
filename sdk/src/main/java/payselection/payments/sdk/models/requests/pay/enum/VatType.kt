@@ -18,6 +18,12 @@ enum class VatType {
     @SerializedName("vat20")
     Vat20,
 
+	@SerializedName("vat22")
+	Vat22,
+
+	@SerializedName("vat122")
+	Vat122,
+
     @SerializedName("vat120")
     Vat120
 }
